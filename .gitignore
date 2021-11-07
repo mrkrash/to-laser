@@ -1,3 +1,4 @@
 *.swp
 tl
 build
+go.sum

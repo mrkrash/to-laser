@@ -27,7 +27,7 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/eraclitux/cfgp"
+	"github.com/eraclitux/conf"
 )
 
 var Version = "unknown-build"
@@ -42,8 +42,8 @@ const (
 )
 
 type Conf struct {
-	Power   int  `cfgp:"power,% of laser power [0-100],"`
-	Version bool `cfgp:"v,show version and exit,"`
+	Power   int  `conf:"power,% of laser power [0-100],"`
+	Version bool `conf:"v,show version and exit,"`
 }
 
 // parsePower transform laser power from [0-100]% range
@@ -52,13 +52,14 @@ func parsePower(p int) (string, error) {
 	if p < 0 || p > 100 {
 		return "", fmt.Errorf("invalid power value: %d", p)
 	}
+  p = p * 10
 	i := strconv.Itoa(p)
 	return "S" + i, nil
 }
 
 func main() {
 	c := Conf{}
-	err := cfgp.Parse(&c)
+	err := conf.Parse(&c)
 	if err != nil {
 		log.Fatal("Unable to parse configuration", err)
 	}
